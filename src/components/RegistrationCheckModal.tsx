@@ -82,20 +82,27 @@ const RegistrationCheckModal: React.FC<RegistrationCheckModalProps> = ({ isOpen,
           {/* 모달 콘텐츠 */}
           <motion.div
             className="registration-check-modal"
-            initial={{ opacity: 0, scale: 0.7, y: 50 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.7, y: 50 }}
-            transition={{ type: "spring", duration: 0.5 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
           >
-            <div className="modal-header">
-              <h2 className="modal-title">
-                <Search size={24} />
-                참가신청 확인
-              </h2>
-              <button className="modal-close-btn" onClick={handleClose}>
-                <X size={24} />
-              </button>
-            </div>
+            <motion.div
+              className="modal-content-wrapper"
+              initial={{ scale: 0.7, y: 50 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.7, y: 50 }}
+              transition={{ type: "spring", duration: 0.5 }}
+            >
+              <div className="modal-header">
+                <h2 className="modal-title">
+                  <Search size={24} />
+                  참가신청 확인
+                </h2>
+                <button className="modal-close-btn" onClick={handleClose}>
+                  <X size={24} />
+                </button>
+              </div>
 
             <div className="modal-body">
               {/* 검색 폼 */}
@@ -261,6 +268,7 @@ const RegistrationCheckModal: React.FC<RegistrationCheckModalProps> = ({ isOpen,
                 )}
               </div>
             </div>
+            </motion.div>
           </motion.div>
         </>
       )}

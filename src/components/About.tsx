@@ -45,7 +45,7 @@ const About: React.FC = () => {
             <span className="title-highlight">한국 최고의</span><br />
             <span className="title-highlight">딥테크 창업가</span><br />
             <span className="title-highlight">네트워킹</span><br />
-            <span className="title-main">행사!</span>
+            <span className="title-main">행사</span>
           </h2>
         </motion.div>
 

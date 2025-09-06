@@ -78,68 +78,54 @@ const Events: React.FC = () => {
         </motion.div>
 
         <motion.div
-          className="events-list"
+          className="timeline-container"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
         >
+          <div className="timeline-line"></div>
           {events.map((event, index) => (
-                        <motion.div
+            <motion.div
               key={event.title}
-              className={`event-card ${event.status}`}
-              initial={{ opacity: 0, x: -30 }}
+              className={`timeline-item ${index % 2 === 0 ? 'left' : 'right'}`}
+              initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
               whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
+              transition={{ duration: 0.6, delay: index * 0.2 }}
               viewport={{ once: true }}
-              whileHover={{
-                scale: 1.02,
-                transition: { duration: 0.2 }
-              }}
             >
-              <div className="event-status-badge">
-                {event.status === 'completed' ? '완료' : '예정'}
+              <div className="timeline-marker">
+                <div className="timeline-dot"></div>
+                <div className="timeline-time">{event.time}</div>
               </div>
 
-              <div className="event-content">
-                <div className="event-main">
-                  <h3 className="event-title">{event.title}</h3>
-                  <p className="event-organizer">주최: {event.organizer}</p>
+              <motion.div
+                className={`timeline-card ${event.status}`}
+                whileHover={{
+                  scale: 1.02,
+                  transition: { duration: 0.2 }
+                }}
+              >
+                <div className="timeline-content">
+                  <h3 className="timeline-title">{event.title}</h3>
+                  <p className="timeline-organizer">주최: {event.organizer}</p>
                   {event.description && (
-                    <p className="event-description">{event.description}</p>
+                    <p className="timeline-description">{event.description}</p>
                   )}
 
-                  <div className="event-details">
-                    <div className="event-detail">
-                      <Calendar className="detail-icon" size={16} />
-                      <span>{event.date}</span>
-                    </div>
-                    <div className="event-detail">
-                      <Clock className="detail-icon" size={16} />
-                      <span>{event.time}</span>
-                    </div>
-                    <div className="event-detail">
+                  <div className="timeline-details">
+                    <div className="timeline-detail">
                       <MapPin className="detail-icon" size={16} />
                       <span>{event.location}</span>
                     </div>
+                    <div className="timeline-detail">
+                      <span className="participants-info">참가자 {event.participants}명</span>
+                    </div>
                   </div>
                 </div>
 
-                <div className="event-meta">
-                  <div className="event-participants">
-                    <span className="participants-count">{event.participants}</span>
-                    <span className="participants-label">참가자</span>
-                  </div>
-
-                  <button className="event-action-btn">
-                    <ArrowRight size={20} />
-                  </button>
-                </div>
-              </div>
-
-              <div className="event-background">
-                <div className="event-gradient"></div>
-              </div>
+                <div className="timeline-arrow"></div>
+              </motion.div>
             </motion.div>
           ))}
         </motion.div>
