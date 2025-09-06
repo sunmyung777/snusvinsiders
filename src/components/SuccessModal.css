@@ -1,0 +1,216 @@
+/* 모달 오버레이 */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(4px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+/* 모달 컨테이너 */
+.modal-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  pointer-events: none;
+}
+
+/* 모달 콘텐츠 */
+.modal-content {
+  background: #111111;
+  border: 2px solid #333333;
+  border-radius: 0;
+  max-width: 500px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  padding: 3rem 2.5rem;
+  text-align: center;
+  pointer-events: all;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+}
+
+/* 닫기 버튼 */
+.modal-close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 0;
+  transition: all 0.2s ease;
+}
+
+.modal-close-btn:hover {
+  background: #333333;
+  color: #ffffff;
+}
+
+/* 성공 아이콘 */
+.success-icon-container {
+  margin-bottom: 2rem;
+}
+
+.success-icon {
+  color: #22c55e;
+  filter: drop-shadow(0 0 20px rgba(34, 197, 94, 0.3));
+}
+
+/* 제목 */
+.modal-title {
+  font-size: 2rem;
+  font-weight: 900;
+  color: #ffffff;
+  margin: 0 0 2rem 0;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+/* 메시지 영역 */
+.modal-message {
+  margin-bottom: 3rem;
+}
+
+.main-message {
+  font-size: 1.1rem;
+  color: #ffffff;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.main-message strong {
+  color: #22c55e;
+  font-weight: 700;
+}
+
+/* 정보 박스 */
+.info-box {
+  background: #000000;
+  border: 1px solid #333333;
+  border-radius: 0;
+  padding: 1.5rem;
+  margin: 2rem 0;
+  text-align: left;
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  color: #cccccc;
+  font-size: 0.9rem;
+}
+
+.info-item:last-child {
+  margin-bottom: 0;
+}
+
+.info-item svg {
+  color: #22c55e;
+  flex-shrink: 0;
+}
+
+.info-item strong {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.sub-message {
+  font-size: 0.9rem;
+  color: #cccccc;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* 액션 버튼들 */
+.modal-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.modal-btn {
+  padding: 1rem 2rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.2s ease;
+  border-radius: 0;
+  min-width: 140px;
+}
+
+.modal-btn:hover {
+  transform: translateY(-2px);
+}
+
+/* 반응형 */
+@media (max-width: 768px) {
+  .modal-content {
+    padding: 2rem 1.5rem;
+    margin: 1rem;
+  }
+
+  .modal-title {
+    font-size: 1.5rem;
+  }
+
+  .main-message {
+    font-size: 1rem;
+  }
+
+  .modal-actions {
+    flex-direction: column;
+  }
+
+  .modal-btn {
+    width: 100%;
+    min-width: auto;
+  }
+
+  .info-box {
+    padding: 1rem;
+  }
+
+  .info-item {
+    font-size: 0.8rem;
+  }
+}
+
+/* 스크롤바 스타일링 */
+.modal-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.modal-content::-webkit-scrollbar-track {
+  background: #000000;
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+  background: #333333;
+  border-radius: 0;
+}
+
+.modal-content::-webkit-scrollbar-thumb:hover {
+  background: #555555;
+}
