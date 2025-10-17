@@ -18,6 +18,17 @@ body {
   text-align: left;
 }
 
+/* app-navigation이 있을 때만 padding-top 적용 */
+.App:has(.app-navigation) {
+  padding-top: 70px;
+}
+
+@media (max-width: 768px) {
+  .App:has(.app-navigation) {
+    padding-top: 60px;
+  }
+}
+
 /* Global Styles */
 .container {
   max-width: 1200px;
@@ -131,29 +142,48 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 12px;
-  padding: 20px;
+  gap: 6px;
+  padding: 12px 8px;
   flex-wrap: wrap;
   transition: all 0.3s ease;
+  min-height: 56px;
+}
+
+@media (min-width: 769px) {
+  .app-navigation {
+    gap: 12px;
+    padding: 20px;
+    min-height: auto;
+  }
 }
 
 .app-navigation a {
-  padding: 10px 24px;
+  padding: 6px 10px;
   background: transparent;
   color: #cccccc;
   border: 2px solid #333333;
   border-radius: 0;
-  font-size: 14px;
+  font-size: 11px;
   font-weight: 700;
   cursor: pointer;
   transition: all 0.2s ease;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 0.5px;
   text-decoration: none;
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 4px;
   position: relative;
+  white-space: nowrap;
+}
+
+@media (min-width: 769px) {
+  .app-navigation a {
+    padding: 10px 24px;
+    font-size: 14px;
+    letter-spacing: 1px;
+    gap: 8px;
+  }
 }
 
 .app-navigation a:hover {

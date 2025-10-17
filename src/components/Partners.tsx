@@ -25,7 +25,7 @@ const Partners: React.FC = () => {
   };
 
   return (
-    <section className="partners-section">
+    <section id="partners" className="partners-section">
       <div className="container">
         <motion.div
           className="partners-header"
