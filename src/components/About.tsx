@@ -42,7 +42,7 @@ const About: React.FC = () => {
           viewport={{ once: true }}
         >
           <h2 className="about-title">
-            <span className="title-highlight">한국 최고의</span><br />
+            <span className="title-highlight">국내 대학 최대 규모</span><br />
             <span className="title-highlight">딥테크 창업가</span><br />
             <span className="title-highlight">네트워킹</span><br />
             <span className="title-main">행사</span>
@@ -64,16 +64,9 @@ const About: React.FC = () => {
 
             <p className="about-details">
               로봇, VR/AR, AI, 자율주행 등 딥테크 분야의<br />
-              창업가들과 연구자들이 한 자리에 모여 아이디어를 공유하고<br />
+              창업가들과 연구자들이 한 자리에 모여 네트워크를 공유하고<br />
               코파운더 매칭과 기술적 역량 확보의 기회를 제공합니다.
             </p>
-
-            <div className="about-highlight">
-              <p>
-                <strong>인사이더스, SNUSV 구성원들의 코파운더 매칭</strong>을 통해<br />
-                창업팀들의 기술적 역량 확보와 네트워킹을 지원합니다.
-              </p>
-            </div>
 
             <p className="about-community">
               딥테크 창업에 관심있는 연구자, 창업가, 투자자들이<br />
@@ -122,18 +115,6 @@ const About: React.FC = () => {
             </div>
           </motion.div>
         </div>
-
-        <motion.div
-          className="about-cta"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.6 }}
-          viewport={{ once: true }}
-        >
-          <button className="btn-primary about-btn">
-            자세히 알아보기
-          </button>
-        </motion.div>
       </div>
     </section>
   );

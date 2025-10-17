@@ -92,7 +92,6 @@ const Registration: React.FC = () => {
         console.log('📝 참가신청 데이터:', registrationData);
         // 개발 모드 시뮬레이션
         await new Promise(resolve => setTimeout(resolve, 1000));
-        savedData = { id: 'dev-' + Date.now(), ...registrationData };
       }
 
             // 참가신청 완료 처리
@@ -141,7 +140,7 @@ const Registration: React.FC = () => {
         >
           <h2 className="section-title">참가신청</h2>
           <p className="section-subtitle">
-            Young Tech Founders Forum 2025에 참여하여 딥테크 네트워킹의 기회를 잡으세요
+            YTTF 2025에 참여하여 네트워킹의 기회를 잡으세요
           </p>
 
           <div className="registration-container">

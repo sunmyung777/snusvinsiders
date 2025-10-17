@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, QrCode, Calendar, MapPin } from 'lucide-react';
+import { Calendar, MapPin } from 'lucide-react';
 import './Hero.css';
 
 const Hero: React.FC = () => {
@@ -44,11 +44,11 @@ const Hero: React.FC = () => {
             <div className="hero-info" style={{ justifyContent: 'center' }}>
               <div className="info-item">
                 <Calendar className="info-icon" />
-                <span>2025.10.30 18:00 ~ 21:00</span>
+                <span>2025.11.03 19:00 ~ 22:00</span>
               </div>
               <div className="info-item">
                 <MapPin className="info-icon" />
-                <span>코엑스</span>
+                <span>네이버 D2SF 센터<br/>강남역 2번 출구 앞 메리츠 빌딩 16층</span>
               </div>
             </div>
 
@@ -65,15 +65,6 @@ const Hero: React.FC = () => {
                 onClick={() => scrollToSection('registration')}
               >
                 참여신청
-              </motion.button>
-
-              <motion.button
-                className="btn-secondary hero-btn"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                자세히 보기
-                <ArrowRight size={20} />
               </motion.button>
             </div>
           </motion.div>

@@ -296,3 +296,129 @@
     font-size: 1.3rem;
   }
 }
+
+/* New Navigation Buttons */
+.nav-action-btn {
+  padding: 8px 16px;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  text-decoration: none;
+  display: inline-block;
+  position: relative;
+}
+
+.nav-action-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+/* Unread Message Badge */
+.unread-badge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: #ff0000;
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 10px;
+  min-width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.message-link {
+  position: relative;
+}
+
+.login-btn,
+.logout-btn {
+  padding: 10px 24px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.login-btn {
+  background: linear-gradient(90deg, #ffffff 0%, #f5f5f5 100%);
+  color: #000000;
+  border: 2px solid #ffffff;
+  border-radius: 4px;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.login-btn:hover {
+  background: transparent;
+  color: #ffffff;
+}
+
+.logout-btn {
+  background: transparent;
+  color: #ffffff;
+  border: 2px solid #ffffff;
+  border-radius: 4px;
+}
+
+.logout-btn:hover {
+  background: #ffffff;
+  color: #000000;
+}
+
+/* Mobile Action Buttons */
+.mobile-action-btn,
+.mobile-login-btn,
+.mobile-logout-btn {
+  width: 100%;
+  padding: 12px;
+  margin-top: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-radius: 4px;
+  text-decoration: none;
+  display: block;
+  text-align: center;
+  position: relative;
+}
+
+.mobile-action-btn {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.mobile-action-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.mobile-login-btn {
+  background: linear-gradient(90deg, #ffffff 0%, #f5f5f5 100%);
+  color: #000000;
+  border: 2px solid #ffffff;
+}
+
+.mobile-logout-btn {
+  background: transparent;
+  color: #ffffff;
+  border: 2px solid #ffffff;
+}
+
+.mobile-logout-btn:hover {
+  background: #ffffff;
+  color: #000000;
+}

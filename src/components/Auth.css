@@ -1,0 +1,250 @@
+.auth-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: #000000;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 450px;
+  background: #111111;
+  border: 1px solid #333333;
+  border-radius: 0;
+  padding: 48px 40px;
+  box-shadow: none;
+}
+
+.auth-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.auth-header h1 {
+  margin: 0 0 8px 0;
+  font-size: 32px;
+  font-weight: 900;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.auth-header p {
+  margin: 0;
+  font-size: 15px;
+  color: #999999;
+}
+
+.auth-form {
+  margin-bottom: 24px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  font-weight: 700;
+  color: #ffffff;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.input-icon {
+  color: #999999;
+  font-size: 14px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 14px 16px;
+  border: 2px solid #333333;
+  border-radius: 0;
+  background: #000000;
+  color: #ffffff;
+  font-size: 15px;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #ffffff;
+  box-shadow: none;
+}
+
+.form-group small {
+  display: block;
+  margin-top: 4px;
+  font-size: 12px;
+  color: #999999;
+}
+
+.auth-button {
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(90deg, #ffffff 0%, #f5f5f5 100%);
+  color: #000000;
+  border: 2px solid #ffffff;
+  border-radius: 0;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 8px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.auth-button:hover:not(:disabled) {
+  background: transparent;
+  color: #ffffff;
+  border-color: #ffffff;
+  transform: none;
+  box-shadow: none;
+}
+
+.auth-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.auth-divider {
+  display: flex;
+  align-items: center;
+  margin: 24px 0;
+  color: #999999;
+  font-size: 14px;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: #333333;
+}
+
+.auth-divider span {
+  padding: 0 16px;
+}
+
+.social-auth {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.social-button {
+  width: 100%;
+  padding: 14px;
+  border: 2px solid #333333;
+  border-radius: 0;
+  background: #000000;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.social-icon {
+  font-size: 20px;
+}
+
+.social-button.google:hover {
+  background: #ffffff;
+  color: #000000;
+  border-color: #ffffff;
+}
+
+.social-button.github:hover {
+  background: #ffffff;
+  color: #000000;
+  border-color: #ffffff;
+}
+
+.auth-toggle {
+  text-align: center;
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid #333333;
+}
+
+.auth-toggle p {
+  margin: 0;
+  font-size: 14px;
+  color: #999999;
+}
+
+.auth-toggle button {
+  background: none;
+  border: none;
+  color: #ffffff;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0;
+  font-size: 14px;
+  transition: color 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.auth-toggle button:hover {
+  color: #cccccc;
+  text-decoration: underline;
+}
+
+/* Auth Notice */
+.auth-notice {
+  text-align: center;
+  padding: 16px;
+  background: #000000;
+  border: 1px solid #333333;
+  border-radius: 0;
+}
+
+.auth-notice p {
+  margin: 0;
+  font-size: 13px;
+  color: #999999;
+  line-height: 1.5;
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+  .auth-card {
+    padding: 32px 24px;
+  }
+
+  .auth-header h1 {
+    font-size: 28px;
+  }
+
+  .auth-button,
+  .social-button {
+    padding: 12px;
+    font-size: 14px;
+  }
+
+  .auth-notice {
+    padding: 12px;
+  }
+
+  .auth-notice p {
+    font-size: 12px;
+  }
+}

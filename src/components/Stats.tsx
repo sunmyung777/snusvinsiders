@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Users, Handshake, Building, Zap } from 'lucide-react';
+import { Users, Handshake, Zap } from 'lucide-react';
 import './Stats.css';
 
 const Stats: React.FC = () => {
@@ -13,22 +13,15 @@ const Stats: React.FC = () => {
       color: '#4f46e5'
     },
     {
-      icon: Building,
-      number: '20',
-      label: 'DEEPTECH STARTUPS',
-      prefix: '+',
-      color: '#059669'
-    },
-    {
       icon: Handshake,
-      number: '5',
+      number: '4',
       label: 'TECH FIELDS',
       prefix: '',
       color: '#dc2626'
     },
     {
       icon: Zap,
-      number: '10',
+      number: '6',
       label: 'IR PITCHING TEAMS',
       prefix: '+',
       color: '#7c3aed'
@@ -123,7 +116,7 @@ const Stats: React.FC = () => {
           viewport={{ once: true }}
         >
           <p>
-            아시아 최대 규모의 글로벌 스타트업 페어에서
+            국내 대학 최대 규모의 힉생 창업 네트워크에서
             <br className="mobile-break" />
             혁신과 협력의 새로운 기회를 발견하세요.
           </p>

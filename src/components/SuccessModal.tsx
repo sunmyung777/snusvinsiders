@@ -74,11 +74,11 @@ const SuccessModal: React.FC<SuccessModalProps> = ({ isOpen, onClose, registrati
                 <div className="info-box">
                   <div className="info-item">
                     <Calendar size={18} />
-                    <span>행사 일정: <strong>2025년 10월 30일 18:00~21:00</strong></span>
+                    <span>행사 일정: <strong>2025년 11월 3일 19:00~22:00</strong></span>
                   </div>
                   <div className="info-item">
                     <MapPin size={18} />
-                    <span>장소: <strong>코엑스 (서울)</strong></span>
+                    <span>장소: <strong>네이버 D2SF 센터 (서울)</strong></span>
                   </div>
                 </div>
 
@@ -100,7 +100,7 @@ const SuccessModal: React.FC<SuccessModalProps> = ({ isOpen, onClose, registrati
                 <button
                   className="btn-primary modal-btn"
                   onClick={() => {
-                    window.open('mailto:ytff2025@gmail.com', '_blank');
+                    window.open('mailto:insiders@insiders.co.kr', '_blank');
                   }}
                 >
                   문의하기

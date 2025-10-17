@@ -1,129 +1,87 @@
 # Supabase 설정 가이드
 
-## 1. Supabase 프로젝트 생성
+## ⚠️ 중요: Foreign Key 제약 조건 문제
 
-1. [Supabase](https://supabase.com)에 접속하여 계정을 생성하세요.
-2. "New Project" 버튼을 클릭하여 새 프로젝트를 생성하세요.
-3. 프로젝트 이름, 데이터베이스 비밀번호, 지역을 설정하세요.
-
-## 2. 환경변수 설정
-
-프로젝트 루트에 `.env` 파일을 생성하고 다음 내용을 추가하세요:
-
-```env
-# Supabase 설정
-REACT_APP_SUPABASE_URL=https://your-project-ref.supabase.co
-REACT_APP_SUPABASE_ANON_KEY=your-anon-key
+현재 발생한 오류:
+```
+insert or update on table "profiles" violates foreign key constraint "profiles_user_id_fkey"
+Key is not present in table "users".
 ```
 
-### Supabase 환경변수 값 찾기:
+**원인**: Supabase에서 자동으로 `profiles.user_id`가 `auth.users` 테이블을 참조하는 foreign key를 생성했습니다.
+**문제**: 우리는 Supabase Auth를 사용하지 않으므로 `auth.users` 테이블이 비어있습니다.
 
-1. Supabase 대시보드에서 프로젝트를 선택하세요.
-2. 왼쪽 메뉴에서 "Settings" → "API"를 클릭하세요.
-3. "Project URL"을 `REACT_APP_SUPABASE_URL`에 복사하세요.
-4. "anon public" 키를 `REACT_APP_SUPABASE_ANON_KEY`에 복사하세요.
+## 해결 방법
 
+### 1️⃣ Foreign Key 제약 조건 제거 (필수!)
 
-## 3. 데이터베이스 설정
+Supabase Dashboard > SQL Editor에서 실행:
 
-### 초기 설정:
-1. Supabase 대시보드에서 "SQL Editor"를 클릭하세요.
-2. `supabase-setup.sql` 파일의 내용을 복사하여 붙여넣으세요.
-3. "RUN" 버튼을 클릭하여 실행하세요.
-
-### 테이블을 삭제한 경우 재생성:
-테이블을 삭제했다면 다음 중 하나를 사용하세요:
-
-**옵션 A - 테이블만 재생성:**
-- `recreate-registrations-table.sql` 파일 내용을 SQL Editor에서 실행
-
-**옵션 B - 완전한 설정 (추천):**
-- `complete-setup.sql` 파일 내용을 SQL Editor에서 실행
-- 테이블 + 스토리지 + 모든 정책을 한번에 설정
-
-## 4. 스토리지 설정
-
-1. Supabase 대시보드에서 "Storage"를 클릭하세요.
-2. "pitch-files" 버킷이 생성되었는지 확인하세요.
-3. 버킷 설정에서 "Public" 옵션이 활성화되어 있는지 확인하세요.
-
-## 5. 테이블 구조
-
-### registrations 테이블
-
-| 컬럼명 | 타입 | 설명 |
-|--------|------|------|
-| id | UUID | 기본키 (자동 생성) |
-| name | VARCHAR(100) | 이름 |
-| phone | VARCHAR(20) | 전화번호 |
-| email | VARCHAR(255) | 이메일 |
-| organization | VARCHAR(255) | 소속 기관 |
-| position | VARCHAR(100) | 직책 |
-| is_founder | BOOLEAN | 창업 여부 |
-| company_name | VARCHAR(255) | 창업 회사명 |
-| is_pitching | BOOLEAN | IR 피칭 참여 여부 |
-| pitch_file_url | TEXT | 피칭 자료 파일 URL |
-| privacy_agreed | BOOLEAN | 개인정보 동의 여부 |
-| created_at | TIMESTAMP | 생성일시 |
-| updated_at | TIMESTAMP | 수정일시 |
-
-## 6. 보안 설정
-
-- RLS(Row Level Security)가 활성화되어 있습니다.
-- 누구나 참가신청 데이터를 삽입할 수 있습니다.
-- 인증된 사용자만 데이터를 조회할 수 있습니다.
-- 피칭 파일은 누구나 업로드하고 조회할 수 있습니다.
-
-## 7. 테스트
-
-설정이 완료되면 참가신청 폼을 테스트해보세요:
-
-1. `npm start`로 애플리케이션을 실행하세요.
-2. 참가신청 페이지로 이동하세요.
-3. 폼을 작성하고 제출해보세요.
-4. Supabase 대시보드에서 데이터가 정상적으로 저장되었는지 확인하세요.
-
-## 문제 해결
-
-### RLS 정책 오류 해결 ⚠️
-
-만약 다음과 같은 오류가 발생한다면:
-```
-new row violates row-level security policy for table "registrations"
-```
-
-**해결 방법 (3가지 옵션):**
-
-#### **옵션 1 - RLS 정책 수정 (권장):**
-`fix-rls-final.sql` 파일 내용을 SQL Editor에서 실행:
 ```sql
--- 모든 정책 삭제 후 새로 생성
-ALTER TABLE registrations DISABLE ROW LEVEL SECURITY;
-ALTER TABLE registrations ENABLE ROW LEVEL SECURITY;
+-- Foreign Key 제약 조건 제거
+ALTER TABLE profiles
+DROP CONSTRAINT IF EXISTS profiles_user_id_fkey;
 
-CREATE POLICY "allow_anon_insert" ON registrations
-  FOR INSERT TO anon WITH CHECK (true);
+-- 인덱스 확인 (성능을 위해)
+CREATE INDEX IF NOT EXISTS idx_profiles_user_id ON profiles(user_id);
 ```
 
-#### **옵션 2 - RLS 완전 비활성화 (개발용):**
-`disable-rls.sql` 파일 내용을 SQL Editor에서 실행:
+또는 프로젝트 루트의 `fix-foreign-key.sql` 파일을 실행하세요.
+
+### 2️⃣ RLS 정책 적용 (필수!)
+
+Supabase Dashboard > SQL Editor에서 `supabase-rls-policies.sql` 파일 내용을 실행
+
+**중요**: messages 테이블에 RLS 정책이 없으면 메시지가 저장되지 않습니다!
+
+### 3️⃣ 테스트 데이터 추가
+
 ```sql
--- 개발/테스트 환경에서만 사용
-ALTER TABLE registrations DISABLE ROW LEVEL SECURITY;
+-- registrations 테이블에 테스트 데이터 추가
+INSERT INTO registrations (name, email, phone, organization, position, is_founder, privacy_agreed)
+VALUES
+  ('김개발', 'dev@example.com', '010-1234-5678', '개발회사', '개발자', true, true),
+  ('박테스트', 'test@example.com', '010-9876-5432', '테스트회사', '매니저', false, true);
 ```
 
-#### **옵션 3 - 수동 명령:**
-SQL Editor에서 직접 실행:
-```sql
--- 빠른 해결
-ALTER TABLE registrations DISABLE ROW LEVEL SECURITY;
+## 테스트
+
+1. 앱 실행: `npm start`
+2. 로그인:
+   - 이름: `김개발`
+   - 이메일: `dev@example.com`
+3. 프로필 등록
+4. 브라우저 콘솔에서 로그 확인:
+   ```
+   📤 Supabase로 전송할 프로필 데이터: {...}
+   ✅ Supabase 프로필 생성 응답: {...}
+   ```
+
+## 일반적인 오류와 해결
+
+### 1. Foreign Key 오류 (23503)
 ```
+violates foreign key constraint "profiles_user_id_fkey"
+```
+→ 위의 1️⃣ 단계 실행
 
-### 일반적인 오류들:
+### 2. Unauthorized 오류
+```
+new row violates row-level security policy
+```
+→ 위의 2️⃣ 단계 실행 (RLS 정책)
 
-1. **환경변수 오류**: `.env` 파일이 프로젝트 루트에 있는지, 변수명이 정확한지 확인하세요.
-2. **CORS 오류**: Supabase 프로젝트 설정에서 도메인이 허용되어 있는지 확인하세요.
-3. **권한 오류**: RLS 정책이 올바르게 설정되어 있는지 확인하세요.
-4. **스토리지 오류**: 버킷이 생성되어 있고 public 설정이 되어 있는지 확인하세요.
+### 3. Duplicate Key 오류 (23505)
+```
+duplicate key value violates unique constraint
+```
+→ 이미 같은 user_id로 프로필이 생성됨. 로그아웃 후 다시 시도
 
-문제가 지속되면 Supabase 문서를 참조하거나 커뮤니티에 문의하세요.
+## 프로덕션 체크리스트
+
+- [ ] Foreign Key 제약 조건 제거
+- [ ] RLS 정책 설정
+- [ ] Storage 버킷 및 정책 설정
+- [ ] 테스트 데이터 추가 및 검증
+- [ ] 네트워크 탭에서 API 호출 확인
+- [ ] Supabase Dashboard에서 데이터 확인

@@ -1,13 +1,30 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
-import { Menu, X, Globe, Search } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import RegistrationCheckModal from './RegistrationCheckModal';
+import { useAuth } from '../contexts/AuthContext';
+import { getTotalUnreadCount } from '../lib/supabase';
 import './Navbar.css';
 
 const Navbar: React.FC = () => {
+  const { user, profile } = useAuth();
+  const { signOut } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isCheckModalOpen, setIsCheckModalOpen] = useState(false);
+  const [unreadCount, setUnreadCount] = useState(0);
+
+  const loadUnreadCount = useCallback(async () => {
+    if (!profile) return;
+
+    try {
+      const count = await getTotalUnreadCount(profile.id);
+      setUnreadCount(count);
+    } catch (error) {
+      console.error('안 읽은 메시지 수 로드 오류:', error);
+    }
+  }, [profile]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -18,13 +35,45 @@ const Navbar: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    if (profile) {
+      loadUnreadCount();
+
+      // 주기적으로 안 읽은 메시지 수 업데이트 (10초마다)
+      const interval = setInterval(loadUnreadCount, 10000);
+
+      // storage 이벤트 리스너 (다른 탭에서 메시지가 왔을 때)
+      const handleStorageChange = () => {
+        loadUnreadCount();
+      };
+
+      window.addEventListener('storage', handleStorageChange);
+      window.addEventListener('new-message', handleStorageChange);
+      window.addEventListener('messages-read', handleStorageChange);
+
+      return () => {
+        clearInterval(interval);
+        window.removeEventListener('storage', handleStorageChange);
+        window.removeEventListener('new-message', handleStorageChange);
+        window.removeEventListener('messages-read', handleStorageChange);
+      };
+    }
+  }, [profile, loadUnreadCount]);
+
   const menuItems = [
-    { name: 'About', href: '#about', submenu: ['행사소개', '공지사항', '아카이브'] },
-    { name: 'Exhibition', href: '#exhibition', submenu: ['행사장안내도', '참여기업'] },
-    { name: 'Conference', href: '#conference', submenu: ['타임라인', '연사'] },
-    { name: 'Events', href: '#events', submenu: ['파트너 학회', '피칭'] },
-    { name: 'Registration', href: '#registration', submenu: null },
+    { name: 'About', href: '#about' },
+    { name: 'Events', href: '#events' },
+    { name: 'Registration', href: '#registration' },
   ];
+
+  const handleLogout = async () => {
+    try {
+      await signOut();
+      alert('로그아웃되었습니다.');
+    } catch (error) {
+      console.error('로그아웃 오류:', error);
+    }
+  };
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
@@ -55,46 +104,57 @@ const Navbar: React.FC = () => {
 
           {/* Desktop Menu */}
           <div className="desktop-menu">
-            {menuItems.map((item, index) => (
-              <div key={item.name} className="menu-item">
-                <button
-                  onClick={() => scrollToSection(item.href.substring(1))}
-                  className="menu-link"
-                >
-                  {item.name}
-                </button>
-                {item.submenu && (
-                  <div className="submenu">
-                    {item.submenu.map((subItem) => (
-                      <button key={subItem} className="submenu-link">
-                        {subItem}
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
+            {menuItems.map((item) => (
+              <button
+                key={item.name}
+                onClick={() => scrollToSection(item.href.substring(1))}
+                className="menu-link"
+              >
+                {item.name}
+              </button>
             ))}
           </div>
 
           {/* Right Side Actions */}
           <div className="navbar-actions">
-            <button className="lang-toggle">
-              <Globe size={20} />
-              <span>KOR</span>
-            </button>
-            <button
-              className="check-btn btn-secondary"
-              onClick={() => setIsCheckModalOpen(true)}
-            >
-              <Search size={18} />
-              신청 확인
-            </button>
-            <button
-              className="register-btn btn-primary"
-              onClick={() => scrollToSection('registration')}
-            >
-              참가신청
-            </button>
+            {user ? (
+              <>
+                <Link
+                  to="/explorer"
+                  className="nav-action-btn"
+                >
+                   참가자
+                </Link>
+                <Link
+                  to="/profile"
+                  className="nav-action-btn"
+                >
+                   프로필
+                </Link>
+                <Link
+                  to="/chat"
+                  className="nav-action-btn message-link"
+                >
+                   메시지
+                  {unreadCount > 0 && (
+                    <span className="unread-badge">{unreadCount}</span>
+                  )}
+                </Link>
+                <button
+                  className="logout-btn btn-secondary"
+                  onClick={handleLogout}
+                >
+                  로그아웃
+                </button>
+              </>
+            ) : (
+              <Link
+                to="/auth"
+                className="login-btn btn-primary"
+              >
+                로그인
+              </Link>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -116,42 +176,60 @@ const Navbar: React.FC = () => {
             transition={{ duration: 0.3 }}
           >
             {menuItems.map((item) => (
-              <div key={item.name} className="mobile-menu-item">
-                <button
-                  onClick={() => scrollToSection(item.href.substring(1))}
-                  className="mobile-menu-link"
-                >
-                  {item.name}
-                </button>
-                {item.submenu && (
-                  <div className="mobile-submenu">
-                    {item.submenu.map((subItem) => (
-                      <button key={subItem} className="mobile-submenu-link">
-                        {subItem}
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
+              <button
+                key={item.name}
+                onClick={() => scrollToSection(item.href.substring(1))}
+                className="mobile-menu-link"
+              >
+                {item.name}
+              </button>
             ))}
             <div className="mobile-menu-actions">
-              <button className="mobile-lang-btn">KOR/ENG</button>
-              <button
-                className="mobile-check-btn btn-secondary"
-                onClick={() => {
-                  setIsCheckModalOpen(true);
-                  setIsMenuOpen(false);
-                }}
-              >
-                <Search size={18} />
-                신청 확인
-              </button>
-              <button
-                className="mobile-register-btn btn-primary"
-                onClick={() => scrollToSection('registration')}
-              >
-                참가신청
-              </button>
+              {user ? (
+                <>
+                  <Link
+                    to="/explorer"
+                    className="mobile-action-btn"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    참가자 탐색
+                  </Link>
+                  <Link
+                    to="/profile"
+                    className="mobile-action-btn"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                     내 프로필
+                  </Link>
+                  <Link
+                    to="/chat"
+                    className="mobile-action-btn message-link"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                     메시지
+                    {unreadCount > 0 && (
+                      <span className="unread-badge">{unreadCount}</span>
+                    )}
+                  </Link>
+                  <button
+                    className="mobile-logout-btn btn-secondary"
+                    onClick={() => {
+                      handleLogout();
+                      setIsMenuOpen(false);
+                    }}
+                  >
+                    로그아웃
+                  </button>
+                </>
+              ) : (
+                <Link
+                  to="/auth"
+                  className="mobile-login-btn btn-primary"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  로그인
+                </Link>
+              )}
             </div>
           </motion.div>
         )}

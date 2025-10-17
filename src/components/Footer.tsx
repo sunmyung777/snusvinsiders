@@ -1,31 +1,24 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Youtube, Facebook, Instagram, Linkedin, Mail, Phone } from 'lucide-react';
+import { Mail, MapPin, Calendar, Clock } from 'lucide-react';
 import './Footer.css';
 
 const Footer: React.FC = () => {
-  const footerLinks = {
-    about: ['행사소개', '공지사항', '참가신청'],
-    program: ['연사 강연', 'IR 피칭', '네트워킹'],
-    partners: ['주최기관', '협력학회', '후원사'],
-    contact: ['문의하기', '오시는길', '행사장안내']
-  };
-
-  const relatedSites = [
-    'SNU Insiders',
-    'SNUSV',
-    'SNU 창업지원단'
+  const hosts = [
+    { name: 'INSIDERS', url: 'https://insiders.co.kr' },
+    { name: 'SNUSV', url: 'https://snusv.net' }
   ];
 
-  const hosts = [
-    'SNU Insiders',
-    'SNUSV'
+  const quickLinks = [
+    { name: 'About', href: '#about' },
+    { name: 'Events', href: '#events' },
+    { name: 'Speakers', href: '#speakers' },
+    { name: 'Registration', href: '#registration' }
   ];
 
   return (
     <footer className="footer">
       <div className="container">
-        {/* Main Footer Content */}
         <div className="footer-main">
           <motion.div
             className="footer-brand"
@@ -36,86 +29,47 @@ const Footer: React.FC = () => {
           >
             <h3 className="footer-logo">YTFF 2025</h3>
             <p className="footer-tagline">
-              「Young Tech Founders Forum 2025」
+              Young Tech Founders Forum 2025
             </p>
             <p className="footer-description">
-              딥테크 분야 창업가들과 연구자들이 만나는<br />
-              특별한 네트워킹 행사에서 새로운 기회를 발견하세요.
+              딥테크 분야 학생 창업가들의 네트워킹 포럼
             </p>
 
             <div className="footer-contact">
               <div className="contact-item">
-                <Mail size={18} />
-                <span>ytff2025@gmail.com</span>
+                <Mail size={16} />
+                <a href="mailto:insiders@insiders.co.kr">insiders@insiders.co.kr</a>
+                <Mail size={16} />
+                <a href="mailto:president@snusv.net">president@snusv.net</a>
               </div>
               <div className="contact-item">
-                <Phone size={18} />
-                <span>02-3475-2618</span>
+                <Calendar size={16} />
+                <span>2025년 11월 03일 (월)</span>
               </div>
-            </div>
-
-            <div className="footer-social">
-              <button className="social-icon" aria-label="YouTube">
-                <Youtube size={20} />
-              </button>
-              <button className="social-icon" aria-label="Facebook">
-                <Facebook size={20} />
-              </button>
-              <button className="social-icon" aria-label="Instagram">
-                <Instagram size={20} />
-              </button>
-              <button className="social-icon" aria-label="LinkedIn">
-                <Linkedin size={20} />
-              </button>
+              <div className="contact-item">
+                <Clock size={16} />
+                <span>19:00 - 22:00</span>
+              </div>
+              <div className="contact-item">
+                <MapPin size={16} />
+                <span>네이버 D2SF 센터<br/>강남역 2번 출구 앞 메리츠 빌딩 16층</span>
+              </div>
             </div>
           </motion.div>
 
           <motion.div
-            className="footer-links"
+            className="footer-links-section"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
             viewport={{ once: true }}
           >
             <div className="footer-section">
-              <h4>About</h4>
+              <h4>QUICK LINKS</h4>
               <ul>
-                {footerLinks.about.map((link) => (
-                  <li key={link}>
-                    <button>{link}</button>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="footer-section">
-              <h4>Program</h4>
-              <ul>
-                {footerLinks.program.map((link) => (
-                  <li key={link}>
-                    <button>{link}</button>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="footer-section">
-              <h4>Partners</h4>
-              <ul>
-                {footerLinks.partners.map((link) => (
-                  <li key={link}>
-                    <button>{link}</button>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="footer-section">
-              <h4>Contact</h4>
-              <ul>
-                {footerLinks.contact.map((link) => (
-                  <li key={link}>
-                    <button>{link}</button>
+                {quickLinks.map((link) => (
+                  <li key={link.name}>
+                    <a href={link.href}>{link.name}</a>
                   </li>
                 ))}
               </ul>
@@ -130,22 +84,13 @@ const Footer: React.FC = () => {
             viewport={{ once: true }}
           >
             <div className="footer-section">
-              <h4>Related Sites</h4>
-              <ul>
-                {relatedSites.map((site) => (
-                  <li key={site}>
-                    <button>{site}</button>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="footer-section">
-              <h4>Hosted by</h4>
+              <h4>HOSTED BY</h4>
               <ul>
                 {hosts.map((host) => (
-                  <li key={host}>
-                    <button>{host}</button>
+                  <li key={host.name}>
+                    <a href={host.url} target="_blank" rel="noopener noreferrer">
+                      {host.name}
+                    </a>
                   </li>
                 ))}
               </ul>
@@ -153,7 +98,6 @@ const Footer: React.FC = () => {
           </motion.div>
         </div>
 
-        {/* Footer Bottom */}
         <motion.div
           className="footer-bottom"
           initial={{ opacity: 0, y: 20 }}
@@ -161,19 +105,7 @@ const Footer: React.FC = () => {
           transition={{ duration: 0.6, delay: 0.3 }}
           viewport={{ once: true }}
         >
-          <div className="footer-bottom-content">
-            <div className="footer-legal">
-              <p>&copy; Young Tech Founders Forum 2025. All rights reserved.</p>
-              <div className="legal-links">
-                <button>Terms of Service</button>
-                <button>Privacy & Copyright Policy</button>
-              </div>
-            </div>
-            <div className="footer-office">
-              <p>Young Tech Founders Forum 2025 사무국</p>
-              <p>All contents provided by YTFF 2025 are copyrighted works protected by copyright law.</p>
-            </div>
-          </div>
+          <p>&copy; 2025 Young Tech Founders Forum. All rights reserved.</p>
         </motion.div>
       </div>
     </footer>

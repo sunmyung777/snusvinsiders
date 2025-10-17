@@ -4,17 +4,14 @@ import './Partners.css';
 
 const Partners: React.FC = () => {
   const keyPartners = [
-    { name: 'SNU Insiders', category: 'Hosted by', logo: 'INSIDERS' },
-    { name: 'SNUSV', category: 'Co-hosted by', logo: 'SNUSV' }
+    { name: 'INSIDERS', category: 'Hosted by', logo: 'INSIDERS' },
+    { name: 'SNUSV', category: 'Hosted by', logo: 'SNUSV' }
   ];
 
   const supportingPartners = [
-    { name: '로봇 학회', logo: 'ROBOT' },
-    { name: 'VR/AR 연구회', logo: 'VR' },
-    { name: 'AI 학회', logo: 'AI' },
-    { name: '자율주행 연구소', logo: 'AUTO' },
-    { name: '딥테크 창업 동아리', logo: 'DEEP' },
-    { name: '기술창업 학회', logo: 'TECH' }
+    { name: '고려대 AI 학회', logo: 'AIKU' },
+    { name: '서울대 AI 학회', logo: 'attentionX' },
+    { name: '서울대 로보틱스 학회', logo: '시그마' }
   ];
 
   const containerVariants = {
@@ -39,7 +36,7 @@ const Partners: React.FC = () => {
         >
           <h2 className="section-title">KEY PARTNERS</h2>
           <p className="section-subtitle">
-            NextRise 2025, Seoul 은 스타트업 생태계 구성원들이 함께 만들어 가고 있습니다.
+            YTFF 2025 은 스타트업 생태계 구성원들이 함께 만들어 가고 있습니다.
           </p>
         </motion.div>
 
@@ -107,24 +104,6 @@ const Partners: React.FC = () => {
                 <span className="partner-name-small">{partner.name}</span>
               </motion.div>
             ))}
-          </div>
-        </motion.div>
-
-        {/* Partnership CTA */}
-        <motion.div
-          className="partnership-cta"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          viewport={{ once: true }}
-        >
-          <div className="cta-content">
-            <h3>파트너십 문의</h3>
-            <p>Young Tech Founders Forum 2025와 함께 딥테크 생태계를 만들어가세요</p>
-            <div className="cta-actions">
-              <button className="btn-primary">파트너십 신청</button>
-              <button className="btn-secondary">자료 다운로드</button>
-            </div>
           </div>
         </motion.div>
       </div>

@@ -1,49 +1,59 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Calendar, ArrowRight, MapPin, Clock } from 'lucide-react';
+import { ArrowRight, MapPin } from 'lucide-react';
 import './Events.css';
 
 const Events: React.FC = () => {
   const events = [
     {
-      title: '행사 소개 및 인트로',
-      date: '2025년 10월 30일',
-      organizer: 'YTFF 2025',
-      time: '18:00 - 18:30',
-      location: '코엑스',
-      status: 'upcoming',
-      participants: 100,
-      description: '행사 소개, 후원사 소개 및 네트워킹 가이드'
+      title: '사전 등록',
+      time: '18:45 - 19:00',
+      duration: '15분',
+      status: 'upcoming'
     },
     {
-      title: '연사님 강연',
-      date: '2025년 10월 30일',
-      organizer: 'YTFF 2025',
-      time: '18:30 - 19:00',
-      location: '코엑스 메인홀',
-      status: 'upcoming',
-      participants: 100,
-      description: '딥테크 분야 전문가의 기술 트렌드와 창업 인사이트'
+      title: '행사 소개 및 후원사 소개',
+      time: '19:00 - 19:20',
+      duration: '20분',
+      description: '후원사 안내 및 홍보',
+      status: 'upcoming'
     },
     {
-      title: 'IR 피칭 세션',
-      date: '2025년 10월 30일',
-      organizer: 'YTFF 2025',
-      time: '19:00 - 19:40',
-      location: '코엑스 메인홀',
-      status: 'upcoming',
-      participants: 100,
-      description: '분야별 창업팀 스피치 + QnA (인사이더스, SNUSV 팀 포함)'
+      title: '연사 초청 강연',
+      time: '19:20 - 19:50',
+      duration: '30분',
+      description: '기술에서 창업으로: 엔지니어의 혁신이 스타트업을 만든다',
+      speaker: '퓨리오사AI 백준호 대표님',
+      status: 'upcoming'
     },
     {
-      title: '네트워킹 및 식사',
-      date: '2025년 10월 30일',
-      organizer: 'YTFF 2025',
-      time: '19:40 - 21:00',
-      location: '코엑스 네트워킹 라운지',
-      status: 'upcoming',
-      participants: 100,
-      description: '자유로운 네트워킹과 코파운더 매칭 기회'
+      title: '6개 팀 IR 피칭',
+      time: '19:50 - 20:30',
+      duration: '40분',
+      description: '학회 별 1개 팀, 총 6팀 IR 피칭',
+      note: '각 학회별 피칭 팀 사전 선정',
+      status: 'upcoming'
+    },
+    {
+      title: '식사 및 기술 분야별 네트워킹',
+      time: '20:30 - 21:10',
+      duration: '40분',
+      description: '테이블 당 자리 배정 후 아이스브레이킹 진행',
+      status: 'upcoming'
+    },
+    {
+      title: '자유 네트워킹',
+      time: '21:10 - 21:50',
+      duration: '40분',
+      description: '다양한 기술 분야 학회원 간의 네트워킹',
+      status: 'upcoming'
+    },
+    {
+      title: '경품 추첨 및 행사 종료',
+      time: '21:50 - 22:00',
+      duration: '10분',
+      description: '',
+      status: 'upcoming'
     }
   ];
 
@@ -107,40 +117,30 @@ const Events: React.FC = () => {
                 }}
               >
                 <div className="timeline-content">
-                  <h3 className="timeline-title">{event.title}</h3>
-                  <p className="timeline-organizer">주최: {event.organizer}</p>
+                  <div className="timeline-header">
+                    <h3 className="timeline-title">{event.title}</h3>
+                    <span className="timeline-duration">{event.duration}</span>
+                  </div>
+
                   {event.description && (
                     <p className="timeline-description">{event.description}</p>
                   )}
 
-                  <div className="timeline-details">
-                    <div className="timeline-detail">
-                      <MapPin className="detail-icon" size={16} />
-                      <span>{event.location}</span>
-                    </div>
-                    <div className="timeline-detail">
-                      <span className="participants-info">참가자 {event.participants}명</span>
-                    </div>
-                  </div>
+                  {event.speaker && (
+                    <p className="timeline-speaker">
+                      <strong>연사:</strong> {event.speaker}
+                    </p>
+                  )}
+
+                  {event.note && (
+                    <p className="timeline-note">{event.note}</p>
+                  )}
                 </div>
 
                 <div className="timeline-arrow"></div>
               </motion.div>
             </motion.div>
           ))}
-        </motion.div>
-
-        <motion.div
-          className="events-cta"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          viewport={{ once: true }}
-        >
-          <button className="btn-secondary events-btn">
-            View more
-            <ArrowRight size={20} />
-          </button>
         </motion.div>
       </div>
     </section>
