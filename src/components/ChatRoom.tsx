@@ -33,10 +33,22 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ otherProfileId, onClose }) => {
   const [roomProfiles, setRoomProfiles] = useState<Map<string, Profile>>(new Map())
   const [roomUnreadCounts, setRoomUnreadCounts] = useState<Map<string, number>>(new Map())
   const messagesEndRef = useRef<HTMLDivElement>(null)
+  const messagesContainerRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
+  const userScrolledUp = useRef(false)
 
   const scrollToBottom = useCallback(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }, [])
+
+  // 사용자가 스크롤을 올렸는지 감지
+  const handleScroll = useCallback(() => {
+    const container = messagesContainerRef.current
+    if (!container) return
+
+    // 스크롤이 바닥에서 100px 이상 떨어져 있으면 사용자가 위로 스크롤한 것으로 간주
+    const isScrolledUp = container.scrollHeight - container.scrollTop - container.clientHeight > 100
+    userScrolledUp.current = isScrolledUp
   }, [])
 
   const loadMyChatRooms = useCallback(async () => {
@@ -163,7 +175,11 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ otherProfileId, onClose }) => {
       // Supabase 실시간 구독
       const subscription = subscribeToMessages(chatRoom.id, async (newMsg) => {
         setMessages((prev) => [...prev, newMsg])
-        scrollToBottom()
+
+        // 사용자가 위로 스크롤하지 않았거나, 자신이 보낸 메시지면 자동 스크롤
+        if (!userScrolledUp.current || newMsg.sender_id === currentProfile?.id) {
+          setTimeout(scrollToBottom, 100)
+        }
 
         // 상대방이 보낸 메시지면 즉시 읽음 처리
         if (newMsg.sender_id !== currentProfile?.id && currentProfile) {
@@ -182,7 +198,11 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ otherProfileId, onClose }) => {
             if (prev.some(m => m.id === newMsg.id)) return prev
             return [...prev, newMsg]
           })
-          scrollToBottom()
+
+          // 사용자가 위로 스크롤하지 않았거나, 자신이 보낸 메시지면 자동 스크롤
+          if (!userScrolledUp.current || newMsg.sender_id === currentProfile?.id) {
+            setTimeout(scrollToBottom, 100)
+          }
 
           // 상대방이 보낸 메시지면 즉시 읽음 처리
           if (newMsg.sender_id !== currentProfile?.id && currentProfile) {
@@ -201,7 +221,10 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ otherProfileId, onClose }) => {
             const lastMessage = allMessages[allMessages.length - 1]
             // 마지막 메시지가 현재 목록에 없으면 추가
             if (lastMessage && !prev.some(m => m.id === lastMessage.id)) {
-              scrollToBottom()
+              // 사용자가 위로 스크롤하지 않았으면 자동 스크롤
+              if (!userScrolledUp.current) {
+                setTimeout(scrollToBottom, 100)
+              }
 
               // 상대방이 보낸 메시지면 읽음 처리
               if (lastMessage.sender_id !== currentProfile?.id && currentProfile) {
@@ -228,9 +251,14 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ otherProfileId, onClose }) => {
     }
   }, [chatRoom, loadMessages, scrollToBottom, currentProfile, loadMyChatRooms])
 
+  // 초기 로드 시에만 자동 스크롤 (실시간 메시지는 위에서 처리)
   useEffect(() => {
-    scrollToBottom()
-  }, [messages, scrollToBottom])
+    if (chatRoom && messages.length > 0) {
+      // 채팅방이 바뀌었을 때만 자동 스크롤
+      userScrolledUp.current = false
+      scrollToBottom()
+    }
+  }, [chatRoom?.id])
 
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -252,7 +280,10 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ otherProfileId, onClose }) => {
       }
 
       setMessages((prev) => [...prev, tempMessage])
-      scrollToBottom()
+
+      // 자신이 메시지를 보낼 때는 항상 스크롤
+      userScrolledUp.current = false
+      setTimeout(scrollToBottom, 100)
 
       // 실제 전송
       const sentMessage = await sendMessage(chatRoom.id, currentProfile.id, messageContent)
@@ -420,7 +451,7 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ otherProfileId, onClose }) => {
           </div>
         </div>
 
-        <div className="chat-messages">
+        <div className="chat-messages" ref={messagesContainerRef} onScroll={handleScroll}>
           {messages.length === 0 ? (
             <div className="no-messages">
               <p>대화를 시작해보세요!</p>
