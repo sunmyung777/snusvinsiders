@@ -9,7 +9,7 @@ const Speakers: React.FC = () => {
     company: '퓨리오사AI',
     image: '/api/placeholder/400/500',
     career: [
-      '서울대학교 전자전기공학 입학',
+      '서울대학교 전기·정보공학부 입학',
       '미국 조지아공과대학교(Georgia Tech)에서 학사 및 석사 취득',
       '2010~2013 AMD (GPU 사업부, 소프트웨어 엔지니어)',
       '2013~2016 삼성전자 메모리사업부 (하드웨어 엔지니어)',

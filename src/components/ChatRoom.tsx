@@ -420,7 +420,7 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ otherProfileId, onClose }) => {
         <div className="chat-header">
           {onClose && (
             <button className="back-button" onClick={onClose}>
-              ←
+              ⌂
             </button>
           )}
           {selectedRoomId && !otherProfileId && (

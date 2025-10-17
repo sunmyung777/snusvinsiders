@@ -44,7 +44,7 @@ const About: React.FC = () => {
           <h2 className="about-title">
             <span className="title-highlight">국내 대학 최대 규모</span><br />
             <span className="title-highlight">딥테크 창업가</span><br />
-            <span className="title-highlight">네트워킹</span><br />
+            <span className="title-main">네트워킹</span><br />
             <span className="title-main">행사</span>
           </h2>
         </motion.div>
