@@ -78,7 +78,7 @@ const SuccessModal: React.FC<SuccessModalProps> = ({ isOpen, onClose, registrati
                   </div>
                   <div className="info-item">
                     <MapPin size={18} />
-                    <span>장소: <strong>네이버 D2SF 센터 (서울)</strong></span>
+                    <span>장소: <strong>네이버 D2SF 센터 (서울 서초구 서초대로74길 14 삼성화재 서초타워 18층)</strong></span>
                   </div>
                 </div>
 

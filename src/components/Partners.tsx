@@ -10,7 +10,7 @@ const Partners: React.FC = () => {
 
   const supportingPartners = [
     { name: '고려대 AI 학회', logo: 'AIKU' },
-    { name: '서울대 AI 학회', logo: 'attentionX' },
+    { name: '대학생 연합 AI 학회', logo: 'attentionX' },
     { name: '서울대 로보틱스 학회', logo: '시그마' }
   ];
 

@@ -48,7 +48,7 @@ const Hero: React.FC = () => {
               </div>
               <div className="info-item">
                 <MapPin className="info-icon" />
-                <span>네이버 D2SF 센터<br/>강남역 2번 출구 앞 메리츠 빌딩 16층</span>
+                <span>네이버 D2SF 센터<br/>(서울 서초구 서초대로74길 14 )<br/>(삼성화재 서초타워 18층)</span>
               </div>
             </div>
 
