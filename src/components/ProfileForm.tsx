@@ -9,7 +9,7 @@ interface ProfileFormProps {
 }
 
 const ProfileForm: React.FC<ProfileFormProps> = ({ existingProfile, onSuccess }) => {
-  const { user, profile, refreshProfile } = useAuth()
+  const { user, participant, profile, refreshProfile } = useAuth()
   const [loading, setLoading] = useState(false)
   const [avatarFile, setAvatarFile] = useState<File | null>(null)
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null)
@@ -19,7 +19,6 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ existingProfile, onSuccess })
     bio: '',
     role: '',
     company: '',
-    position: '',
     phone: '',
     website: '',
     linkedin_url: '',
@@ -39,7 +38,6 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ existingProfile, onSuccess })
           bio: currentProfile.bio || '',
           role: currentProfile.role || '',
           company: currentProfile.company || '',
-          position: currentProfile.position || '',
           phone: currentProfile.phone || '',
           website: currentProfile.website || '',
           linkedin_url: currentProfile.linkedin_url || '',
@@ -53,8 +51,16 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ existingProfile, onSuccess })
           setAvatarPreview(currentProfile.avatar_url)
         }
       }
+    } else if (participant) {
+      // 프로필이 없고 participant 데이터가 있으면 registration 데이터로 미리 채우기
+      setFormData(prev => ({
+        ...prev,
+        name: participant.name || '',
+        company: participant.organization || '',
+        phone: participant.phone || '',
+      }))
     }
-  }, [existingProfile, profile])
+  }, [existingProfile, profile, participant])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target
@@ -105,7 +111,6 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ existingProfile, onSuccess })
         bio: formData.bio || undefined,
         role: formData.role || undefined,
         company: formData.company || undefined,
-        position: formData.position || undefined,
         phone: formData.phone || undefined,
         website: formData.website || undefined,
         linkedin_url: formData.linkedin_url || undefined,
@@ -204,40 +209,56 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ existingProfile, onSuccess })
         {/* 역할/직군 */}
         <div className="form-group">
           <label htmlFor="role">역할/직군</label>
-          <input
-            type="text"
+          <select
             id="role"
             name="role"
             value={formData.role}
             onChange={handleChange}
-            placeholder="예: 개발자, 디자이너, PM, 마케터"
-          />
+          >
+            <option value="">직군을 선택해주세요</option>
+            <option value="개발자">개발자</option>
+            <option value="디자이너">디자이너</option>
+            <option value="PM">PM</option>
+            <option value="마케터">마케터</option>
+            <option value="기획자">기획자</option>
+            <option value="데이터 분석가">데이터 분석가</option>
+            <option value="영업/세일즈">영업/세일즈</option>
+            <option value="HR/인사">HR/인사</option>
+            <option value="재무/회계">재무/회계</option>
+            <option value="투자자">투자자</option>
+            <option value="CEO/경영진">CEO/경영진</option>
+            <option value="학생">학생</option>
+            <option value="기타">기타</option>
+          </select>
         </div>
 
         {/* 회사 */}
         <div className="form-group">
-          <label htmlFor="company">회사</label>
-          <input
-            type="text"
+          <label htmlFor="company">소속</label>
+          <select
             id="company"
             name="company"
             value={formData.company}
             onChange={handleChange}
-            placeholder="소속 회사명"
-          />
-        </div>
-
-        {/* 직책 */}
-        <div className="form-group">
-          <label htmlFor="position">직책</label>
-          <input
-            type="text"
-            id="position"
-            name="position"
-            value={formData.position}
-            onChange={handleChange}
-            placeholder="예: 시니어 개발자, CTO, 팀장"
-          />
+          >
+            <option value="">소속 기관을 선택해주세요</option>
+            <option value="INSIDERS">INSIDERS</option>
+            <option value="SNUSV">SNUSV</option>
+            <option value="시그마">시그마</option>
+            <option value="attentionX">attentionX</option>
+            <option value="Xreal">Xreal</option>
+            <option value="AIKU">AIKU</option>
+            <option value="Blockchain Valley">Blockchain Valley</option>
+            <option value="Blockchain at Yonsei">Blockchain at Yonsei</option>
+            <option value="Kasimov">Kasimov</option>
+            <option value="로보인">로보인</option>
+            <option value="서울대 멋쟁이 사자처럼">서울대 멋쟁이 사자처럼</option>
+            <option value="연세대 멋쟁이 사자처럼">연세대 멋쟁이 사자처럼</option>
+            <option value="고려대 멋쟁이 사자처럼">고려대 멋쟁이 사자처럼</option>
+            <option value="서울대">서울대</option>
+            <option value="고려대">고려대</option>
+            <option value="연세대">연세대</option>
+          </select>
         </div>
 
         {/* 전화번호 */}

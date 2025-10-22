@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { User, Phone, Mail, Building, Briefcase, Rocket, FileText, Check, Upload, AlertCircle } from 'lucide-react';
-import { insertRegistration, uploadPitchFile, RegistrationData } from '../lib/supabase';
+import { User, Phone, Mail, Building, Briefcase, Check, AlertCircle } from 'lucide-react';
+import { insertRegistration, RegistrationData } from '../lib/supabase';
 import SuccessModal from './SuccessModal';
 import './Registration.css';
 
@@ -12,10 +12,6 @@ const Registration: React.FC = () => {
     email: '',
     organization: '',
     position: '',
-    isFounder: false,
-    companyName: '',
-    isPitching: false,
-    pitchFile: null as File | null,
     privacyAgreed: false
   });
 
@@ -25,18 +21,15 @@ const Registration: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [submittedData, setSubmittedData] = useState<{name: string, email: string} | null>(null);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, type, checked } = e.target;
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value, type } = e.target;
+    const checked = 'checked' in e.target ? e.target.checked : false;
     setFormData(prev => ({
       ...prev,
       [name]: type === 'checkbox' ? checked : value
     }));
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0] || null;
-    setFormData(prev => ({ ...prev, pitchFile: file }));
-  };
 
   const handleModalClose = () => {
     setIsModalOpen(false);
@@ -51,19 +44,6 @@ const Registration: React.FC = () => {
     setErrorMessage('');
 
     try {
-      let pitchFileUrl: string | undefined;
-
-      // PDF 파일 업로드 (IR 피칭 참여 시)
-      if (formData.isPitching && formData.pitchFile) {
-        if (process.env.REACT_APP_SUPABASE_URL && process.env.REACT_APP_SUPABASE_ANON_KEY) {
-          const fileName = `${Date.now()}_${formData.pitchFile.name}`;
-          pitchFileUrl = await uploadPitchFile(formData.pitchFile, fileName);
-        } else {
-          console.log('📎 피칭 파일 (Supabase 미연결):', formData.pitchFile.name);
-          pitchFileUrl = `placeholder-url/${formData.pitchFile.name}`;
-        }
-      }
-
       // 참가신청 데이터 준비
       const registrationData: Omit<RegistrationData, 'id' | 'created_at'> = {
         name: formData.name,
@@ -71,10 +51,8 @@ const Registration: React.FC = () => {
         email: formData.email,
         organization: formData.organization,
         position: formData.position,
-        is_founder: formData.isFounder,
-        company_name: formData.isFounder ? formData.companyName : undefined,
-        is_pitching: formData.isPitching,
-        pitch_file_url: pitchFileUrl,
+        is_founder: false,
+        is_pitching: false,
         privacy_agreed: formData.privacyAgreed
       };
 
@@ -113,10 +91,6 @@ const Registration: React.FC = () => {
         email: '',
         organization: '',
         position: '',
-        isFounder: false,
-        companyName: '',
-        isPitching: false,
-        pitchFile: null,
         privacyAgreed: false
       });
 
@@ -203,15 +177,31 @@ const Registration: React.FC = () => {
                       <Building size={20} />
                       소속 기관 *
                     </label>
-                    <input
-                      type="text"
+                    <select
                       name="organization"
                       value={formData.organization}
                       onChange={handleInputChange}
                       className="form-input"
-                      placeholder="소속 회사/기관명을 입력해주세요"
                       required
-                    />
+                    >
+                      <option value="">소속 기관을 선택해주세요</option>
+                      <option value="INSIDERS">INSIDERS</option>
+                      <option value="SNUSV">SNUSV</option>
+                      <option value="시그마">시그마</option>
+                      <option value="attentionX">attentionX</option>
+                      <option value="Xreal">Xreal</option>
+                      <option value="AIKU">AIKU</option>
+                      <option value="Blockchain Valley">Blockchain Valley</option>
+                      <option value="Blockchain at Yonsei">Blockchain at Yonsei</option>
+                      <option value="Kasimov">Kasimov</option>
+                      <option value="로보인">로보인</option>
+                      <option value="서울대 멋쟁이 사자처럼">서울대 멋쟁이 사자처럼</option>
+                      <option value="연세대 멋쟁이 사자처럼">연세대 멋쟁이 사자처럼</option>
+                      <option value="고려대 멋쟁이 사자처럼">고려대 멋쟁이 사자처럼</option>
+                      <option value="서울대">서울대</option>
+                      <option value="고려대">고려대</option>
+                      <option value="연세대">연세대</option>
+                    </select>
                   </div>
 
                   <div className="form-group">
@@ -230,100 +220,6 @@ const Registration: React.FC = () => {
                     />
                   </div>
                 </div>
-              </div>
-
-              {/* 창업 정보 */}
-              <div className="form-section">
-                <h3 className="form-section-title">창업 정보</h3>
-
-                <div className="form-group">
-                  <label className="checkbox-label">
-                    <input
-                      type="checkbox"
-                      name="isFounder"
-                      checked={formData.isFounder}
-                      onChange={handleInputChange}
-                      className="checkbox-input"
-                    />
-                    <span className="checkbox-custom">
-                      <Check size={16} />
-                    </span>
-                    <Rocket size={20} />
-                    창업을 하셨나요?
-                  </label>
-                </div>
-
-                {formData.isFounder && (
-                  <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: 'auto' }}
-                    transition={{ duration: 0.3 }}
-                    className="form-group"
-                  >
-                    <label className="form-label">
-                      <Building size={20} />
-                      창업 회사명 *
-                    </label>
-                    <input
-                      type="text"
-                      name="companyName"
-                      value={formData.companyName}
-                      onChange={handleInputChange}
-                      className="form-input"
-                      placeholder="창업하신 회사명을 입력해주세요"
-                      required={formData.isFounder}
-                    />
-                  </motion.div>
-                )}
-              </div>
-
-              {/* IR 피칭 정보 */}
-              <div className="form-section">
-                <h3 className="form-section-title">IR 피칭</h3>
-
-                <div className="form-group">
-                  <label className="checkbox-label">
-                    <input
-                      type="checkbox"
-                      name="isPitching"
-                      checked={formData.isPitching}
-                      onChange={handleInputChange}
-                      className="checkbox-input"
-                    />
-                    <span className="checkbox-custom">
-                      <Check size={16} />
-                    </span>
-                    <FileText size={20} />
-                    IR 피칭에 참여하시겠습니까?
-                  </label>
-                </div>
-
-                {formData.isPitching && (
-                  <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: 'auto' }}
-                    transition={{ duration: 0.3 }}
-                    className="form-group"
-                  >
-                    <label className="form-label">
-                      <Upload size={20} />
-                      피칭 자료 (PDF) *
-                    </label>
-                    <div className="file-upload">
-                      <input
-                        type="file"
-                        name="pitchFile"
-                        onChange={handleFileChange}
-                        className="file-input"
-                        accept=".pdf"
-                        required={formData.isPitching}
-                      />
-                      <div className="file-upload-text">
-                        {formData.pitchFile ? formData.pitchFile.name : 'PDF 파일을 선택해주세요'}
-                      </div>
-                    </div>
-                  </motion.div>
-                )}
               </div>
 
               {/* 개인정보 동의 */}

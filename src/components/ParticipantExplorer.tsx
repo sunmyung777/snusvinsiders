@@ -296,21 +296,50 @@ const ParticipantExplorer: React.FC<ParticipantExplorerProps> = ({ onChatStart }
           </div>
 
           <div className="search-field">
-            <input
-              type="text"
-              placeholder="직군 (예: 개발자, 디자이너)"
+            <select
               value={searchParams.role || ''}
               onChange={(e) => setSearchParams({ ...searchParams, role: e.target.value })}
-            />
+            >
+              <option value="">직군 선택</option>
+              <option value="개발자">개발자</option>
+              <option value="디자이너">디자이너</option>
+              <option value="PM">PM</option>
+              <option value="마케터">마케터</option>
+              <option value="기획자">기획자</option>
+              <option value="데이터 분석가">데이터 분석가</option>
+              <option value="영업/세일즈">영업/세일즈</option>
+              <option value="HR/인사">HR/인사</option>
+              <option value="재무/회계">재무/회계</option>
+              <option value="투자자">투자자</option>
+              <option value="CEO/경영진">CEO/경영진</option>
+              <option value="학생">학생</option>
+              <option value="기타">기타</option>
+            </select>
           </div>
 
           <div className="search-field">
-            <input
-              type="text"
-              placeholder="회사명"
+            <select
               value={searchParams.company || ''}
               onChange={(e) => setSearchParams({ ...searchParams, company: e.target.value })}
-            />
+            >
+              <option value="">회사 선택</option>
+              <option value="INSIDERS">INSIDERS</option>
+              <option value="SNUSV">SNUSV</option>
+              <option value="시그마">시그마</option>
+              <option value="attentionX">attentionX</option>
+              <option value="Xreal">Xreal</option>
+              <option value="AIKU">AIKU</option>
+              <option value="Blockchain Valley">Blockchain Valley</option>
+              <option value="Blockchain at Yonsei">Blockchain at Yonsei</option>
+              <option value="Kasimov">Kasimov</option>
+              <option value="로보인">로보인</option>
+              <option value="서울대 멋쟁이 사자처럼">서울대 멋쟁이 사자처럼</option>
+              <option value="연세대 멋쟁이 사자처럼">연세대 멋쟁이 사자처럼</option>
+              <option value="고려대 멋쟁이 사자처럼">고려대 멋쟁이 사자처럼</option>
+              <option value="서울대">서울대</option>
+              <option value="고려대">고려대</option>
+              <option value="연세대">연세대</option>
+            </select>
           </div>
         </div>
 

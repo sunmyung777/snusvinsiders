@@ -11,7 +11,15 @@ const Partners: React.FC = () => {
   const supportingPartners = [
     { name: '고려대 AI 학회', logo: 'AIKU' },
     { name: '대학생 연합 AI 학회', logo: 'attentionX' },
-    { name: '서울대 로보틱스 학회', logo: '시그마' }
+    { name: '서울대 로보틱스 학회', logo: 'Sigma intelligence' },
+    { name: '대학생 연합 VR/AR 학회', logo: 'Xreal' },
+    { name: '고려대 블록체인 학회', logo: 'Blockchain Valley' },
+    { name: '연세대 블록체인 학회', logo: 'Blockchain at Yonsei' },
+    { name: '고려대 지능로봇 동아리', logo: 'Kasimov' },
+    { name: '연세대 로봇 동아리', logo: '로보인' },
+    { name: '멋쟁이 사자처럼', logo: 'Seoul Univ.' },
+    { name: '멋쟁이 사자처럼', logo: 'Yonsei Univ.' },
+    { name: '멋쟁이 사자처럼', logo: 'Korea Univ.' },
   ];
 
   const containerVariants = {
@@ -83,7 +91,7 @@ const Partners: React.FC = () => {
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
         >
-          <h3 className="partners-category-title">협력기관</h3>
+          <h3 className="partners-category-title">참여단체</h3>
           <div className="supporting-partners-grid">
             {supportingPartners.map((partner, index) => (
                             <motion.div
