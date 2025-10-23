@@ -53,7 +53,7 @@ const Hero: React.FC = () => {
             </div>
 
             <p className="hero-description">
-              로봇, VR/AR, AI, 자율주행 등 딥테크 분야 창업가들과 연구자들이<br />
+              로보틱스, VR/AR, AI, 블록체인 등 딥테크 분야 창업가들과 연구자들이<br />
               코파운더 매칭과 기술적 역량 확보를 위해 만나는 특별한 네트워킹 행사입니다.
             </p>
 
