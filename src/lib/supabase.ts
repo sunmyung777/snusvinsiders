@@ -27,6 +27,34 @@ export interface RegistrationData {
   created_at?: string
 }
 
+// 특정 organization의 등록자 수 조회
+export const getRegistrationCountByOrganization = async (organization: string): Promise<number> => {
+  console.log(`🔍 ${organization} 등록자 수 조회 중...`);
+
+  // 환경변수 체크
+  const hasSupabaseConfig = process.env.REACT_APP_SUPABASE_URL &&
+                           process.env.REACT_APP_SUPABASE_ANON_KEY &&
+                           process.env.REACT_APP_SUPABASE_URL !== 'https://placeholder.supabase.co';
+
+  if (!hasSupabaseConfig) {
+    console.warn('⚠️ Supabase 미연결 - 개발 모드 (카운트 0 반환)');
+    return 0;
+  }
+
+  const { count, error } = await supabase
+    .from('registrations')
+    .select('*', { count: 'exact', head: true })
+    .eq('organization', organization);
+
+  if (error) {
+    console.error('❌ 등록자 수 조회 오류:', error);
+    throw error;
+  }
+
+  console.log(`✅ ${organization} 등록자 수: ${count || 0}명`);
+  return count || 0;
+}
+
 // 참가신청 데이터 삽입
 export const insertRegistration = async (data: Omit<RegistrationData, 'id' | 'created_at'>) => {
   console.log('🔄 Supabase 데이터 삽입 시도:', data);

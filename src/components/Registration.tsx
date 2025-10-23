@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { User, Phone, Mail, Building, Briefcase, Check, AlertCircle } from 'lucide-react';
-import { insertRegistration, RegistrationData } from '../lib/supabase';
+import { insertRegistration, RegistrationData, getRegistrationCountByOrganization } from '../lib/supabase';
 import SuccessModal from './SuccessModal';
 import './Registration.css';
 
@@ -44,6 +44,18 @@ const Registration: React.FC = () => {
     setErrorMessage('');
 
     try {
+      // 대학(원)생 체크: 서울대, 고려대, 연세대인 경우 20명 제한
+      const universityOrganizations = ['대학(원)생'];
+      if (universityOrganizations.includes(formData.organization)) {
+        const currentCount = await getRegistrationCountByOrganization(formData.organization);
+        if (currentCount >= 20) {
+          setSubmitStatus('error');
+          setErrorMessage(`${formData.organization} 참가 인원이 마감되었습니다.`);
+          setIsSubmitting(false);
+          return;
+        }
+      }
+
       // 참가신청 데이터 준비
       const registrationData: Omit<RegistrationData, 'id' | 'created_at'> = {
         name: formData.name,
@@ -198,9 +210,7 @@ const Registration: React.FC = () => {
                       <option value="서울대 멋쟁이 사자처럼">서울대 멋쟁이 사자처럼</option>
                       <option value="연세대 멋쟁이 사자처럼">연세대 멋쟁이 사자처럼</option>
                       <option value="고려대 멋쟁이 사자처럼">고려대 멋쟁이 사자처럼</option>
-                      <option value="서울대">서울대</option>
-                      <option value="고려대">고려대</option>
-                      <option value="연세대">연세대</option>
+                      <option value="대학(원)생">대학(원)생</option>
                     </select>
                   </div>
 
