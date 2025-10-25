@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { Profile, searchProfiles, getAllProfiles, ProfileSearchParams, addLike, removeLike, checkLike, getLikeCount } from '../lib/supabase'
 import { useAuth } from '../contexts/AuthContext'
+import { Linkedin, Github, Twitter, Globe } from 'lucide-react'
 import './ParticipantExplorer.css'
 
 // 임시 데이터
@@ -129,6 +130,7 @@ const ParticipantExplorer: React.FC<ParticipantExplorerProps> = ({ onChatStart }
   })
   const [likedProfiles, setLikedProfiles] = useState<Set<string>>(new Set())
   const [likeCounts, setLikeCounts] = useState<Map<string, number>>(new Map())
+  const [expandedBios, setExpandedBios] = useState<Set<string>>(new Set())
 
   const loadProfiles = useCallback(async () => {
     setLoading(true)
@@ -275,6 +277,22 @@ const ParticipantExplorer: React.FC<ParticipantExplorerProps> = ({ onChatStart }
     }
   }
 
+  const toggleBioExpand = (profileId: string) => {
+    setExpandedBios(prev => {
+      const newSet = new Set(prev)
+      if (newSet.has(profileId)) {
+        newSet.delete(profileId)
+      } else {
+        newSet.add(profileId)
+      }
+      return newSet
+    })
+  }
+
+  const isBioLong = (bio: string) => {
+    return bio.length > 100
+  }
+
   return (
     <div className="participant-explorer">
       <div className="explorer-header">
@@ -405,7 +423,21 @@ const ParticipantExplorer: React.FC<ParticipantExplorerProps> = ({ onChatStart }
                     )}
 
                     {profile.bio && (
-                      <p className="profile-bio">{profile.bio}</p>
+                      <div className="profile-bio-wrapper">
+                        <p className={`profile-bio ${expandedBios.has(profile.id) ? 'expanded' : ''}`}>
+                          {expandedBios.has(profile.id) || !isBioLong(profile.bio)
+                            ? profile.bio
+                            : `${profile.bio.substring(0, 100)}...`}
+                        </p>
+                        {isBioLong(profile.bio) && (
+                          <button
+                            className="bio-toggle-btn"
+                            onClick={() => toggleBioExpand(profile.id)}
+                          >
+                            {expandedBios.has(profile.id) ? '접기' : '더보기'}
+                          </button>
+                        )}
+                      </div>
                     )}
 
                     {profile.hashtags && profile.hashtags.length > 0 && (
@@ -428,23 +460,23 @@ const ParticipantExplorer: React.FC<ParticipantExplorerProps> = ({ onChatStart }
                   <div className="profile-card-footer">
                     <div className="social-links">
                       {profile.linkedin_url && (
-                        <a href={profile.linkedin_url} target="_blank" rel="noopener noreferrer" title="LinkedIn">
-                          💼
+                        <a href={profile.linkedin_url} target="_blank" rel="noopener noreferrer" title="LinkedIn" className="social-link linkedin">
+                          <Linkedin size={18} />
                         </a>
                       )}
                       {profile.github_url && (
-                        <a href={profile.github_url} target="_blank" rel="noopener noreferrer" title="GitHub">
-                          🐙
+                        <a href={profile.github_url} target="_blank" rel="noopener noreferrer" title="GitHub" className="social-link github">
+                          <Github size={18} />
                         </a>
                       )}
                       {profile.twitter_url && (
-                        <a href={profile.twitter_url} target="_blank" rel="noopener noreferrer" title="Twitter">
-                          🐦
+                        <a href={profile.twitter_url} target="_blank" rel="noopener noreferrer" title="Twitter" className="social-link twitter">
+                          <Twitter size={18} />
                         </a>
                       )}
                       {profile.website && (
-                        <a href={profile.website} target="_blank" rel="noopener noreferrer" title="Website">
-                          🌐
+                        <a href={profile.website} target="_blank" rel="noopener noreferrer" title="Website" className="social-link website">
+                          <Globe size={18} />
                         </a>
                       )}
                     </div>

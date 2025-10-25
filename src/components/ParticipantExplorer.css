@@ -263,15 +263,37 @@
   color: #999999;
 }
 
-.profile-bio {
+.profile-bio-wrapper {
   margin: 12px 0;
+}
+
+.profile-bio {
+  margin: 0 0 8px 0;
   font-size: 14px;
   color: #cccccc;
   line-height: 1.6;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.profile-bio.expanded {
+  display: block;
+}
+
+.bio-toggle-btn {
+  background: none;
+  border: none;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 4px 0;
+  text-decoration: underline;
+  transition: opacity 0.2s ease;
+}
+
+.bio-toggle-btn:hover {
+  opacity: 0.7;
 }
 
 .profile-hashtags {
@@ -331,15 +353,36 @@
   border: 1px solid #333333;
   border-radius: 50%;
   color: #ffffff;
-  font-size: 18px;
   transition: all 0.2s ease;
 }
 
 .social-links a:hover {
-  background: #ffffff;
-  color: #000000;
+  transform: translateY(-2px);
   border-color: #ffffff;
-  transform: none;
+}
+
+.social-link.linkedin:hover {
+  background: #0A66C2;
+  border-color: #0A66C2;
+  color: #ffffff;
+}
+
+.social-link.github:hover {
+  background: #ffffff;
+  border-color: #ffffff;
+  color: #000000;
+}
+
+.social-link.twitter:hover {
+  background: #1DA1F2;
+  border-color: #1DA1F2;
+  color: #ffffff;
+}
+
+.social-link.website:hover {
+  background: #ffffff;
+  border-color: #ffffff;
+  color: #000000;
 }
 
 .profile-actions {
