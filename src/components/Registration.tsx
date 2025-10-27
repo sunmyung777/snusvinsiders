@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { User, Phone, Mail, Building, Briefcase, Check, AlertCircle } from 'lucide-react';
-import { insertRegistration, RegistrationData, getRegistrationCountByOrganization } from '../lib/supabase';
+import { insertRegistration, RegistrationData, getRegistrationCountByOrganization, checkEmailExists } from '../lib/supabase';
 import SuccessModal from './SuccessModal';
 import './Registration.css';
 
@@ -44,13 +44,22 @@ const Registration: React.FC = () => {
     setErrorMessage('');
 
     try {
+      // 이메일 중복 체크
+      const emailExists = await checkEmailExists(formData.email);
+      if (emailExists) {
+        setSubmitStatus('error');
+        setErrorMessage('이미 등록된 이메일입니다. 다른 이메일을 사용해주세요.');
+        setIsSubmitting(false);
+        return;
+      }
+
       // 대학(원)생 체크: 서울대, 고려대, 연세대인 경우 20명 제한
-      const universityOrganizations = ['대학(원)생'];
+      const universityOrganizations = ['서울대', '고려대', '연세대'];
       if (universityOrganizations.includes(formData.organization)) {
         const currentCount = await getRegistrationCountByOrganization(formData.organization);
         if (currentCount >= 20) {
           setSubmitStatus('error');
-          setErrorMessage(`${formData.organization} 참가 인원이 마감되었습니다.`);
+          setErrorMessage(`${formData.organization} 참가 인원이 마감되었습니다. (정원: 20명)`);
           setIsSubmitting(false);
           return;
         }

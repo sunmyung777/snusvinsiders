@@ -27,6 +27,36 @@ export interface RegistrationData {
   created_at?: string
 }
 
+// 이메일 중복 체크
+export const checkEmailExists = async (email: string): Promise<boolean> => {
+  console.log(`🔍 이메일 중복 체크: ${email}`);
+
+  // 환경변수 체크
+  const hasSupabaseConfig = process.env.REACT_APP_SUPABASE_URL &&
+                           process.env.REACT_APP_SUPABASE_ANON_KEY &&
+                           process.env.REACT_APP_SUPABASE_URL !== 'https://placeholder.supabase.co';
+
+  if (!hasSupabaseConfig) {
+    console.warn('⚠️ Supabase 미연결 - 개발 모드 (중복 없음 반환)');
+    return false;
+  }
+
+  const { data, error } = await supabase
+    .from('registrations')
+    .select('email')
+    .eq('email', email)
+    .limit(1);
+
+  if (error) {
+    console.error('❌ 이메일 중복 체크 오류:', error);
+    throw error;
+  }
+
+  const exists = data && data.length > 0;
+  console.log(`${exists ? '❌' : '✅'} 이메일 중복 체크 결과: ${exists ? '중복됨' : '사용 가능'}`);
+  return exists;
+}
+
 // 특정 organization의 등록자 수 조회
 export const getRegistrationCountByOrganization = async (organization: string): Promise<number> => {
   console.log(`🔍 ${organization} 등록자 수 조회 중...`);
