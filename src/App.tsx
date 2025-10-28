@@ -14,6 +14,7 @@ import Footer from './components/Footer';
 import Auth from './components/Auth';
 import ProfileForm from './components/ProfileForm';
 import ParticipantExplorer from './components/ParticipantExplorer';
+import OrganizationExplorer from './components/OrganizationExplorer';
 import ChatRoom from './components/ChatRoom';
 
 // 홈 페이지
@@ -52,6 +53,11 @@ function ExplorerPage() {
     navigate(`/chat/${profileId}`);
   };
   return <ParticipantExplorer onChatStart={handleChatStart} />;
+}
+
+// 학회 탐색 페이지
+function OrganizationExplorerPage() {
+  return <OrganizationExplorer />;
 }
 
 // 채팅 페이지
@@ -123,6 +129,12 @@ function AppNavigation() {
             참가자 탐색
           </Link>
           <Link
+            to="/organizations"
+            className={location.pathname === '/organizations' ? 'active' : ''}
+          >
+            학회 탐색
+          </Link>
+          <Link
             to="/profile"
             className={location.pathname === '/profile' ? 'active' : ''}
           >
@@ -159,6 +171,7 @@ function AppContent() {
         <Route path="/auth" element={<AuthPage />} />
         <Route path="/profile" element={<ProfileSettingsPage />} />
         <Route path="/explorer" element={<ExplorerPage />} />
+        <Route path="/organizations" element={<OrganizationExplorerPage />} />
         <Route path="/chat" element={<ChatPage />} />
         <Route path="/chat/:profileId" element={<ChatPage />} />
       </Routes>

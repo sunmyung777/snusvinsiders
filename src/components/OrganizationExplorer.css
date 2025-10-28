@@ -1,0 +1,357 @@
+.organization-explorer {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 100px 20px 60px 20px;
+  background: #000000;
+  min-height: 100vh;
+}
+
+.explorer-header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.explorer-header h1 {
+  font-size: 42px;
+  font-weight: 900;
+  margin: 0 0 16px 0;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.explorer-header p {
+  font-size: 18px;
+  color: #999999;
+  margin: 0;
+}
+
+/* 필터 */
+.organization-filters {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-bottom: 40px;
+}
+
+.filter-btn {
+  padding: 10px 24px;
+  background: transparent;
+  border: 2px solid #333333;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.filter-btn:hover {
+  border-color: #ffffff;
+}
+
+.filter-btn.active {
+  background: #ffffff;
+  color: #000000;
+  border-color: #ffffff;
+}
+
+/* 학회 그리드 */
+.organizations-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+.organization-card {
+  background: #111111;
+  border: 1px solid #333333;
+  padding: 32px 24px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.organization-card:hover {
+  border-color: #ffffff;
+  transform: translateY(-4px);
+}
+
+.org-card-logo {
+  width: 80px;
+  height: 80px;
+  background: #ffffff;
+  border: 2px solid #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  overflow: hidden;
+  padding: 8px;
+}
+
+.org-card-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.org-card-logo span {
+  font-size: 14px;
+  font-weight: 900;
+  color: #000000;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-align: center;
+  word-break: break-word;
+}
+
+.organization-card h3 {
+  font-size: 20px;
+  font-weight: 900;
+  color: #ffffff;
+  margin: 0 0 8px 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.org-category {
+  display: inline-block;
+  padding: 4px 12px;
+  background: transparent;
+  border: 1px solid #ffffff;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  text-transform: uppercase;
+}
+
+.org-description {
+  font-size: 14px;
+  color: #cccccc;
+  line-height: 1.6;
+  margin: 0 0 16px 0;
+  flex: 1;
+}
+
+.org-links-preview {
+  display: flex;
+  gap: 12px;
+  color: #999999;
+  padding-top: 16px;
+  border-top: 1px solid #333333;
+  width: 100%;
+  justify-content: center;
+}
+
+.org-links-preview svg {
+  transition: color 0.2s ease;
+}
+
+.organization-card:hover .org-links-preview svg {
+  color: #ffffff;
+}
+
+/* 모달 */
+.organization-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.organization-modal-content {
+  background: #111111;
+  border: 2px solid #ffffff;
+  max-width: 600px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: transparent;
+  border: 2px solid #ffffff;
+  color: #ffffff;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 20px;
+  transition: all 0.2s ease;
+  z-index: 10;
+}
+
+.modal-close-btn:hover {
+  background: #ffffff;
+  color: #000000;
+}
+
+.modal-header {
+  padding: 40px 40px 32px 40px;
+  text-align: center;
+  border-bottom: 1px solid #333333;
+}
+
+.modal-logo {
+  width: 100px;
+  height: 100px;
+  background: #ffffff;
+  border: 2px solid #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 24px auto;
+  overflow: hidden;
+  padding: 10px;
+}
+
+.modal-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.modal-logo span {
+  font-size: 16px;
+  font-weight: 900;
+  color: #000000;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-align: center;
+  word-break: break-word;
+}
+
+.modal-header h2 {
+  font-size: 28px;
+  font-weight: 900;
+  color: #ffffff;
+  margin: 0 0 12px 0;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.modal-category {
+  display: inline-block;
+  padding: 6px 16px;
+  background: transparent;
+  border: 1px solid #ffffff;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.modal-body {
+  padding: 32px 40px 40px 40px;
+}
+
+.modal-description {
+  font-size: 16px;
+  color: #cccccc;
+  line-height: 1.8;
+  margin: 0 0 32px 0;
+}
+
+.modal-section {
+  margin-bottom: 32px;
+}
+
+.modal-section:last-child {
+  margin-bottom: 0;
+}
+
+.modal-section h3 {
+  font-size: 18px;
+  font-weight: 900;
+  color: #ffffff;
+  margin: 0 0 16px 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.modal-links,
+.modal-pdfs {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.modal-link,
+.modal-pdf {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  background: #000000;
+  border: 1px solid #333333;
+  color: #ffffff;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.modal-link:hover,
+.modal-pdf:hover {
+  border-color: #ffffff;
+  transform: translateX(4px);
+}
+
+.modal-link span,
+.modal-pdf span {
+  flex: 1;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.modal-link svg:last-child,
+.modal-pdf svg:last-child {
+  opacity: 0.5;
+}
+
+/* 반응형 */
+@media (max-width: 768px) {
+  .organization-explorer {
+    padding: 80px 16px 40px 16px;
+  }
+
+  .explorer-header h1 {
+    font-size: 32px;
+  }
+
+  .organization-filters {
+    flex-wrap: wrap;
+  }
+
+  .organizations-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .modal-header,
+  .modal-body {
+    padding: 24px 20px;
+  }
+
+  .modal-close-btn {
+    top: 12px;
+    right: 12px;
+  }
+}
