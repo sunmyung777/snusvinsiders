@@ -56,6 +56,17 @@ const ORGANIZATIONS: Organization[] = [
     instagram:'https://www.instagram.com/sigma_intelligence_/',
     pdfs: []
   },
+
+  {
+    id: 'attentionX',
+    name: 'attentionX',
+    logo: '/attentionx.jpg',
+    description: 'AI Research Lab & Startup Incubator based in Seoul',
+    category: '협력기관',
+    instagram:'https://www.instagram.com/attentionx.ai/',
+    websites:['https://attentionx.org/'],
+    pdfs: []
+  },
   {
     id: 'blockchain-valley',
     name: 'Blockchain Valley',
