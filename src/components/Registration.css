@@ -29,6 +29,45 @@
   z-index: 1;
 }
 
+/* 마감 메시지 */
+.registration-closed-message {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 4rem 3rem;
+  background: #111111;
+  border: 2px solid #ffffff;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.closed-icon {
+  font-size: 4rem;
+  margin-bottom: 1.5rem;
+}
+
+.registration-closed-message h3 {
+  font-size: 2rem;
+  font-weight: 900;
+  color: #ffffff;
+  margin: 0 0 1rem 0;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.registration-closed-message p {
+  font-size: 1.1rem;
+  color: #cccccc;
+  margin: 0.5rem 0;
+  line-height: 1.6;
+}
+
+.registration-closed-message p:last-child {
+  margin-top: 1.5rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
 .registration-form {
   background: #111111;
   border: 2px solid #333333;

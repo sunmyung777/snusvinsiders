@@ -68,6 +68,16 @@ const ORGANIZATIONS: Organization[] = [
     pdfs: []
   },
   {
+    id: 'Xreal',
+    name: 'Xreal',
+    logo: '/Xreal.jpg',
+    description: '서울대학교 기반 XR-AI 학회',
+    category: '협력기관',
+    instagram:'https://www.instagram.com/xreal_snu/',
+    websites:['https://www.xreal.info/'],
+    pdfs: []
+  },
+  {
     id: 'blockchain-valley',
     name: 'Blockchain Valley',
     logo: '/blockchainvalley.jpg',
@@ -106,6 +116,7 @@ const ORGANIZATIONS: Organization[] = [
     description: '멋쟁이사자처럼 at 연세대학교',
     category: '협력기관',
     instagram: 'https://www.instagram.com/likelion_yonsei/',
+    websites:['https://steel-friction-f68.notion.site/13-19789a8192f380b6b106eb7b29170818'],
     pdfs: []
   }
 ]

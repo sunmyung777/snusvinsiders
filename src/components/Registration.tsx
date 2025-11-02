@@ -6,6 +6,9 @@ import SuccessModal from './SuccessModal';
 import './Registration.css';
 
 const Registration: React.FC = () => {
+  // 신청 마감 여부 (true로 설정하면 신청 마감)
+  const REGISTRATION_CLOSED = true;
+
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -138,8 +141,16 @@ const Registration: React.FC = () => {
             YTTF 2025에 참여하여 네트워킹의 기회를 잡으세요
           </p>
 
-          <div className="registration-container">
-            <form onSubmit={handleSubmit} className="registration-form">
+          {REGISTRATION_CLOSED ? (
+            <div className="registration-closed-message">
+              <div className="closed-icon">🔒</div>
+              <h3>참가 신청이 마감되었습니다</h3>
+              <p>많은 관심과 참여 감사드립니다.</p>
+              <p>다음 행사에서 뵙겠습니다!</p>
+            </div>
+          ) : (
+            <div className="registration-container">
+              <form onSubmit={handleSubmit} className="registration-form">
               {/* 기본 정보 */}
               <div className="form-section">
                 <h3 className="form-section-title">기본 정보</h3>
@@ -303,6 +314,7 @@ const Registration: React.FC = () => {
               </motion.button>
             </form>
           </div>
+          )}
         </motion.div>
       </div>
 
